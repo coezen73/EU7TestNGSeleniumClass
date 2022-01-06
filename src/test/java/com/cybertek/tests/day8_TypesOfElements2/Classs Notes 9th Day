@@ -1,0 +1,123 @@
+Class Notes-9
+TAB AND WINDOWS:
+
+In selenium, there is no difference between tabs and windows. By default selenium controls one html page.
+When we open the page first time, it points that page only.
+When we open a new tab/window, it will still be looking at the old window.
+To do any interaction with the new window we have to switch to new window.
+
+driver.getWindowHandle(); --> This returns some unique code belongs the windows that we open with driver.get()
+
+handle--> unique identifier for windows
+driver.getWindowHandle() --> returns the handle of the current windows
+driver.getWindowHandles()--> returns the set of the all open windows.
+
+HOW TO HANDLE MORE THEN 2 WINDOWS/TABS in SELENIUM:
+
+If you have more then 2 windows, we need some unique identifier for us like title, url etc.
+Then based on our identifier we will keep switching windows until we find our expected window.
+
+==============================
+
+FRAMES:
+NoSuchElementException:
+    1.Locator might be wrong(dynamic or not correct)
+    2.Not enough wait time
+    3.Frame or iframe // it s same for us..
+
+In html we can have one html page inside to another. This is made possible by tag <iframe> or <frame>.
+Using frames we can put html inside the html. When we have page with frames,
+selenium cannot control what is inside the frame. We have to switch iframe first.
+When we switch to iframe, it will not see the default page, until we switched back.
+
+-We can only switch one at a time, cannot switch to grandchild directly.
+-Cannot switch to siblings, only parent to child
+
+    HTML(Default Content)
+        0 frame-top(parent frame)
+            0 left
+            1 middle
+            2 right
+        1 frame-bottom
+
+====================================
+WAITS
+
+Thread.sleep()
+this method is from java, not selenium. It pauses the program based on given millisecond.
+
+It waits for the duration given. Be careful not to use too long or too less.
+It is recommended to minimize the use of thread.'sleep' using too much slows the execution of tests.
+
+IMPLICITLY WAIT:
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
+
+This  'wait' comes from selenium.Two parameters:
+1.Amount of time
+2.Unit of time(second,milliseconds,days etc)
+
+HOW FIND ELEMENT METHODS WORK ?
+ We provide locator and try to find element to do same actions using findElement method
+   IF element FOUND  -> It will return WebElement
+   IF element does NOT FOUND;
+a) It will check do we have implicitly wait set ?
+     -It will keep trying to find element up to time we set.
+        1.If it finds within the time, it will return the element.
+        2.If it cannot find up to time we set, it will throw NoSuchElementException
+b) If there is no implicitly wait set, it will throw 'NoSuchElementException'
+
+* This waits for elements to be found in HTML, It only works when we call 'findElement'
+  method.
+* Implicitly wait only waits until the element located.
+* Implicitly wait is set once, then it is used by rest of the program.
+* If we have many findElement methods, they will all use the same implicitlyWait.
+
+    As long as findElement method finds the webElement on the html,
+    it does NOT care is it intractable, visible, clickable or not. it will return the element.
+    So implicitly wait will not solve our elementNotInteractible problems.
+
+    IF ELEMENT IN THE HTML, findElement WILL NOT COMPLAIN.
+==========================================================================
+
+EXPLICITLY WAIT:
+
+Sometimes we might locate the element, but we cannot interact with it within a certain time.
+We have to wait until it is visible, clickable, enabled,has certain text or disappear.
+When we have to wait for these cases, we will use EXPLICIT wait.
+
+- 2 step to use explicit wait: first create the object pass parameters:
+
+WebDriverWait wait = new WebDriverWait(driver,10);
+
+WebDriverWait --> clas used to explicit waits
+It takes 2 parameters: driver, time in seconds
+
+use object to wait until specific conditions for webElement or case.
+
+wait.until(ExpectedConditions.elementToBeClickable(inputBox));
+
+ExpectedConditions-->contains conditions for wait that we can wait using WebDriverWait
+
+Depending on what condition we are using, we can pass webElement,by locator or text to ExpectedConditions.
+
+Explicit wait, waits for the condition to complete, once the condition is met, it will stop waiting(dynamic).
+If the condition is not met and the time runs out we got TimeoutException
+
+COMPARISON OF 3 WAITS:
+
+Thread.sleep
+call every time you need
+wait for whole duration, not dynamic(static)
+not selenium wait
+
+IMPLICITLY WAIT
+call it once,(set of driver)
+waits while trying to findElement
+wait until element found or time runs out(dynamic)
+applies for all findElement methods
+
+EXPLICITLY WAIT
+call every time you need it
+wait until condition is met or time runs out(dynamic)
+waits for different conditions(interactible,visible,invisible,text,clickable etc)

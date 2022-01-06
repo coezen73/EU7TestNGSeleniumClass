@@ -1,0 +1,89 @@
+                            _Class Notes-8_
+
+LIST OF WEB ELEMENTS:
+
+driver.findElements();
+We were trying to locate one element until now.
+We will learn how to locate multiple elements and interact with it.
+Steps:
+    1.Find common locators for the elements that you want to locate
+    2.Pass your locator to findElements method
+    3.List<WebElement> buttons = driver.findElements(yourLocator)
+
+After this point, buttons keep list of webElements,
+we have to reach them to apply selenium methods either with loop or .get() list method.
+
+findElements() method does not throw 'NoSuchElementException',
+if your locator is wrong, it will return you empty list.
+
+==============================
+
+DROPDOWNS:
+
+Dropdown menu is a menu that offers a list of options.
+Most of the time we only allowed to choose one option.
+
+    select -->html tag
+    Select class --> class from selenium
+
+SELECT CLASS only works with the webElement which has 'select' (html) tag.
+How to use SELECT ClASS?:
+    1.Make sure the dropdown has 'select'  tag.
+    2.Locate the dropdown just like any other element (basic locators, xpath, css .. )
+    3.Create 'object' using Select class by passing the element that we locate step 2 as a 'constructor'
+
+SELECT METHODS:
+
+    getOptions() --> Returns all the available options from  dropdown list.
+
+    getFirstSelectedOption()--> Returns webElement, first selected option
+
+HOW TO SELECT OPTION FROM DROPDOWN:
+
+    1.Using Visible Text
+    selectByVisibleText("text") -->selecting based on the visible text of options
+
+    2.Using index Number
+    selectByIndex(indexNumber) -->select based on index of options(starts from 0)
+
+    3.using value attribute
+    selectByValue(option value) --> select based on value of value attribute
+
+NO SELECT DROPDOWN:
+
+When we try to use 'Select class' with the dropdown which does NOT have 'select' tag,
+we got 'UnexpectedTagNameException': Element should have been "select" but was "a"
+
+If we don't have select tag, we locate dropdown just like any other webElements and
+to see options with clicking or hovering over to it.
+
+To get all options from dropdown, we can use common locator between them(exp:classname, tagName etc)
+then we can use 'List methods' to get the size and expected options from list.
+
+we use 'click() method' to click different options, we can either locate the option separately or
+use index of the option from the list.
+
+======================
+Popups,alerts,Iframes,Windows:
+---
+Popups,alerts,modal,dialog,overlay --> anything pop ups on the webpage.
+
+How to handle pop ups?:
+
+We have 2 different way of handling pop ups, based on their structure:
+    1.HTML POP UPS:
+        If the pop up is from html, we deal with it as if it is another web element.
+    2.JAVASCRIPT ALERTS:
+        Second types of pop up comes from javascript, mostly known as JS alerts.
+        We CANNOT right click on those alerts to see html(inspect)
+
+To deal with non html alerts, we have special class from selenium which is 'Alert'
+
+How to point the Alert?:
+
+    Alert alert = driver.switchTo().alert();
+
+    and we have accept, dismiss, sendkeys, getText method for alerts.
+
+    If there is no alert on the webpage, and we try to switch,
+    NoAlertPresentException: no such alert
