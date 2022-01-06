@@ -1,4 +1,4 @@
-package com.cybertek.tests;
+package com.cybertek.tests.HomeWorks;
 
 import com.cybertek.utilities.WebDriverFactory;
 import io.github.bonigarcia.wdm.WebDriverManager;

@@ -1,4 +1,4 @@
-package com.cybertek.tests.reviews;
+package com.cybertek.tests.HomeWorks;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;

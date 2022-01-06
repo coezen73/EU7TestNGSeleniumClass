@@ -1,4 +1,4 @@
-package com.cybertek.tests;
+package com.cybertek.tests.reviews.week03;
 
 import com.github.javafaker.CreditCardType;
 import com.github.javafaker.Faker;
