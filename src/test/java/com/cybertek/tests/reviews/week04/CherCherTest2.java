@@ -25,6 +25,8 @@ public class CherCherTest2 {
 
     WebDriver driver;
 
+    WebDriverWait wait;
+
     @BeforeMethod
     public void setUp() {
         driver = WebDriverFactory.getDriver("chrome");
@@ -35,10 +37,11 @@ public class CherCherTest2 {
     }
     @AfterMethod
     public void tearDown(){
-    //    driver.close();
+    // driver.close();
     }
     @Test
     public void WebOrderTest() throws InterruptedException {
+
 // 2.Login with username: Tester, password: test
         WebElement inputUsername = driver.findElement(By.id("ctl00_MainContent_username"));
         inputUsername.sendKeys("Tester");
@@ -46,19 +49,38 @@ public class CherCherTest2 {
         inputPassword.sendKeys("test"+ Keys.ENTER); // to enter the keys
 
 //  3. Click  Order button (Link)
-        WebElement orderLink = driver.findElement(By.linkText("Order"));
+        WebElement orderLink = driver.findElement(By.linkText("Order")); // (<a href => LinkText)
         orderLink.click();
+
         // HOW TO DEAL WITH SELECT DROPDOWN BUTTONS:
 // 4. Verify under Product Information, selected option is “MyMoney”
         // What is 'MyMoney'? -> expected condition:
         String expectedSelectedOption = "MyMoney";
         WebElement  productDropdownElement = driver.findElement(By.id("ctl00_MainContent_fmwOrder_ddlProduct"));
-        // I need to use Select class methods.
+        // I need to use Select class methods for dropdown buttons.
         // In java, in order to use the 'instance methods' which come from a class, we have to 'create an object':
         Select productDropdown = new Select(productDropdownElement);//  -> My parameter
         String actualSelectedOption = productDropdown.getFirstSelectedOption().getText(); // <- option+enter
         // now I have 'expected' and 'actual' selected options to be able to compare:
         Assert.assertEquals(actualSelectedOption,expectedSelectedOption,"First selected option is NOT expected");
+
+// 5. Then select FamilyAlbum, make quantity 2, and click Calculate,
+        productDropdown.selectByVisibleText("FamilyAlbum");// I can use 'selectByVisibleText()method
+        WebElement quantityBox = driver.findElement(By.id("ctl00_MainContent_fmwOrder_txtQuantity"));
+        quantityBox.sendKeys("2");
+
+        WebElement calculateButton =driver.findElement(By.cssSelector("input[type='submit']"));
+        calculateButton.click();
+
+// 6. Then verify Total is equal to Quantity*PricePerUnit
+        int expectedPrice = 160;
+        // locate  first
+        WebElement totalPriceElement= driver.findElement(By.id("ctl00_MainContent_fmwOrder_txtTotal"));
+
+        // System.out.println("totalPriceElement.getText() = " + totalPriceElement.getText());
+        // will return NOTHING!
+        int actualPrice = Integer.parseInt(totalPriceElement.getAttribute("value"));
+        Assert.assertEquals(actualPrice, expectedPrice, "Price is NOT expected");
 
 
     }
