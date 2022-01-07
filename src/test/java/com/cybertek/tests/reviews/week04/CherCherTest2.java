@@ -48,6 +48,7 @@ public class CherCherTest2 {
 //  3. Click  Order button (Link)
         WebElement orderLink = driver.findElement(By.linkText("Order"));
         orderLink.click();
+        // HOW TO DEAL WITH SELECT DROPDOWN BUTTONS:
 // 4. Verify under Product Information, selected option is “MyMoney”
         // What is 'MyMoney'? -> expected condition:
         String expectedSelectedOption = "MyMoney";
