@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,11 +15,17 @@ import org.testng.annotations.Test;
 import java.util.concurrent.TimeUnit;
 
 public class CherCherTest {
-/* Task1:
+/*  Task1:
     1. Go to https://chercher.tech/practice/explicit-wait-sample-selenium-webdriver
     2. Click on "Click me, to Open an alert after 5 seconds"
     3. Explicitly wait until alert is present
-    4. Then handle the Javascript alert */
+    4. Then handle the Javascript alert
+
+     Task2:
+    1. Go to https://chercher.tech/practice/explicit-wait-sample-selenium-webdriver
+    2. Click on "Enable button after 10 seconds"
+    3. Explicitly wait until the button is enabled
+    4. Then verify the button is enabled   */
 
     WebDriver driver; // declaring of our reference for the object
     WebDriverWait wait;
@@ -49,6 +56,22 @@ public class CherCherTest {
             // if you don't wait you will get NoAlertPresentException: no such alert
             Alert alert = driver.switchTo().alert();
             alert.accept();
+        }
+        @Test
+    public void disabledButtonTest(){
+    // Go to:
+        WebElement button = driver.findElement(By.id("disable"));
+            System.out.println("button.isEnabled() = " + button.isEnabled());//false
+
+    // Click on "Enable button after 10 seconds":
+        WebElement initiatorButton = driver.findElement(By.id("enable-button"));
+        initiatorButton.click();
+
+        wait = new WebDriverWait(driver,10);
+        wait.until(ExpectedConditions.elementToBeClickable(button));
+
+            System.out.println("button.isEnabled() = " + button.isEnabled());// True
+            Assert.assertTrue(button.isEnabled(),"Verify if the button is enabled");
         }
 
     }
