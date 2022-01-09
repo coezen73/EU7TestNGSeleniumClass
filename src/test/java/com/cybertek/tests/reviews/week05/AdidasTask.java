@@ -45,6 +45,8 @@ You have to implement the following Web automated checks over our DEMO ONLINE SH
         navigateTo("Laptops");
         navigateTo("Sony vaio i5");
         navigateTo("Add to cart");
+        // handle pop up
+
    }
 
 }
